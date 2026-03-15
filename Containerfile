@@ -21,4 +21,6 @@ CMD ["--config", "/etc/authelia.d"]
 LABEL org.opencontainers.image.title="distroless authelia"
 LABEL org.opencontainers.image.description="distroless authelia"
 LABEL org.opencontainers.image.version="${AUTHELIA_VERSION}"
+LABEL org.opencontainers.image.source="https://github.com/simons-containers/distroless-authelia"
 LABEL org.opencontainers.image.volumes.config="/etc/authelia.d"
+
