@@ -32,5 +32,5 @@ jobs:
         with:
           branch: update-versions
           delete-branch: true
-          title: Update glibc and tzdb
-          commit-message: Update glibc and tzdb
+          title: Update lldap
+          commit-message: Update lldap
