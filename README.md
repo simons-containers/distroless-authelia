@@ -1,16 +1,16 @@
 # Distroless authelia container
 
-Bare-bones distroless authelia container image.
+Bare-bones distroless authelia container image with `musl libc`, `tzdata`, and Mozilla CA certificates. Does not contain `busybox`, `su-exec`, or `wget` like the official container. Uses `ghcr.io/simons-containers/distroless-musl` and is 15M smaller than the official image.
 
 ## Running
 
-Multiple .yaml configuration files can be mounted at `/etc/authelia.d`
+Configuration is loaded from .yaml files in `/etc/authelia.d`
 
 Example:
 
 ```bash
 docker run -it --rm -v ./config:/etc/authelia.d \
-  distroless-authelia:${AUTHELIA_VERSION}
+  ghcr.io/simons-containers/distroless-authelia:latest
 ```
 
 ## Building
@@ -38,7 +38,7 @@ Software included in built container images (such as **authelia**, **musl**, **t
 
 This project depends on a number of upstream components and data sources:
 
-- **authelia** - The Single Sign-On Multi-Factor portal for web apps, now OpenID Certified™.
+- **authelia** - The Single Sign-On Multi-Factor portal for web apps, now OpenID Certified™.  
   https://www.authelia.com
 
 - **musl** – Lightweight C standard library implementation for Linux providing the standard C runtime and POSIX interfaces with a focus on simplicity, correctness, and static linking.  
