@@ -1,0 +1,36 @@
+name: Update versions
+
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Fetch latest versions
+        run: |
+          AUTHELIA=$(git ls-remote --tags https://github.com/authelia/authelia.git/  \
+            | awk -F/ '{print $3}' \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sed 's/^v//' \
+            | sort -V \
+            | tail -1)
+
+          yq -i ".authelia = \"$AUTHELIA\"" versions.yaml
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: update-versions
+          delete-branch: true
+          title: Update glibc and tzdb
+          commit-message: Update glibc and tzdb
