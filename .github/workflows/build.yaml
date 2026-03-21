@@ -1,4 +1,4 @@
-name: Build and publish distroless-authelia
+name: Build and publish container
 
 on:
   push:
@@ -13,38 +13,12 @@ on:
       - versions.yaml
   workflow_dispatch:
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Load versions
-        run: |
-          echo "AUTHELIA_VERSION=$(yq -r '.authelia' versions.yaml)" >> $GITHUB_ENV
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Log in to GHCR
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        run: |
-          docker buildx build \
-            --cache-from type=gha \
-            --cache-to type=gha,mode=max \
-            --build-arg AUTHELIA_VERSION=${AUTHELIA_VERSION} \
-            -t ghcr.io/simons-containers/distroless-authelia:${AUTHELIA_VERSION} \
-            -t ghcr.io/simons-containers/distroless-authelia:latest \
-            --push \
-            -f Containerfile .
+    uses: simons-containers/.github/.github/workflows/ghcr.io-build-deploy.yaml@main
+    with:
+      registry: ghcr.io/simons-containers
+      image: distroless-authelia
+      appname: authelia
+    secrets:
+      ghcr_token: ${{ secrets.GITHUB_TOKEN }}
