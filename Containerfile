@@ -9,7 +9,7 @@ RUN curl --silent --show-error --location --output authelia.tar.gz \
   "${GITHUB_URL}/v${AUTHELIA_VERSION}/${AUTHELIA_TARBALL}" \
   && tar xzf authelia.tar.gz
 
-FROM ghcr.io/simons-containers/distroless-musl:1.2.5
+FROM ghcr.io/simons-containers/distroless-musl:1.2.6
 
 ARG AUTHELIA_VERSION
 
