@@ -22,9 +22,9 @@ docker run -it --rm -v ./config:/etc/authelia.d \
 Build container:
 
 ```bash
-docker build \
-  -t distroless-authelia:${AUTHELIA_VERSION} \
-  --build-arg AUTHELIA_VERSION=${AUTHELIA_VERSION} \
+docker build -t \
+  distroless-authelia:$(yq -r .authelia versions.yaml) \
+  $(yq -r 'to_entries[] | "--build-arg " + (.key | upcase) + "_VERSION=" + .value' versions.yaml) \
   -f Containerfile .
 ```
 
