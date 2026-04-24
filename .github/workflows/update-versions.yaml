@@ -17,15 +17,21 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Fetch latest versions
-        run: |
-          AUTHELIA=$(git ls-remote --tags https://github.com/authelia/authelia.git/  \
-            | awk -F/ '{print $3}' \
-            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
-            | sed 's/^v//' \
-            | sort -V \
-            | tail -1)
-
-          yq -i ".authelia = \"$AUTHELIA\"" versions.yaml
+        uses: nick-fields/retry@v4
+        with:
+          max_attempts: 5
+          timeout_minutes: 10
+          command: |
+            set -uo pipefail
+            AUTHELIA=$(git ls-remote --tags https://github.com/authelia/authelia.git/  \
+              | awk -F/ '{print $3}' \
+              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+              | sed 's/^v//' \
+              | sort -V \
+              | tail -1)
+  
+            yq -i ".authelia = \"$AUTHELIA\"" versions.yaml
+            git diff versions.yaml
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
