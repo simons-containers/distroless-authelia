@@ -14,7 +14,7 @@ RUN git clone ${AUTHELIA_SOURCE} authelia \
   && git checkout v${AUTHELIA_VERSION}
 
 WORKDIR /fetch/golang
-RUN curl --silent --show-error --location --output golang.tar.ggz \
+RUN curl --silent --show-error --location --output golang.tar.gz \
   "${GOLANG_RELEASE}" \
   && tar xzf golang.tar.gz --strip-components=1 \
   && rm golang.tar.gz
