@@ -9,7 +9,8 @@ ARG GOLANG_RELEASE=https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 RUN pacman -Sy --noconfirm git
 
 WORKDIR /src/authelia
-RUN git clone ${AUTHELIA_SOURCE} \
+RUN git clone ${AUTHELIA_SOURCE} authelia \
+  && cd authelia \
   && git checkout v${AUTHELIA_VERSION}
 
 WORKDIR /fetch/golang
