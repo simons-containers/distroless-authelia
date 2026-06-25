@@ -1,3 +1,7 @@
+![Latest](https://ghcr-badge.egpl.dev/simons-containers/distroless-authelia/latest_tag?ignore=latest,sha256*&label=latest)  
+![Size](https://ghcr-badge.egpl.dev/simons-containers/distroless-authelia/size?tag=latest)  
+![Tags](https://ghcr-badge.egpl.dev/simons-containers/distroless-authelia/tags?ignore=latest,sha256*)  
+
 # Distroless authelia container
 
 Bare-bones distroless authelia container image with `musl libc`, `tzdata`, and Mozilla CA certificates. Does not contain `busybox`, `su-exec`, or `wget` like the official container. Uses `ghcr.io/simons-containers/distroless-musl` and is 15M smaller than the official image.
