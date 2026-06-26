@@ -9,7 +9,7 @@ ARG GOLANG_RELEASE=https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 RUN pacman -Sy --noconfirm git pnpm wget
 
 WORKDIR /opt/
-RUN curl --silent --show-error --location --http1.1 \
+RUN curl --silent --show-error --location \
   "${GOLANG_RELEASE}" \
   | tar xzf - --strip-components=1
 ENV PATH=$PATH:/opt/bin
