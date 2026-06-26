@@ -23,9 +23,8 @@ FROM ghcr.io/simons-containers/distroless-nodejs:26.4.0 as frontend-builder
 
 COPY --from=fetch /src/authelia /src/authelia
 WORKDIR /src/authelia/web
-
-RUN ["node", "npm", "install", "-g", "pnpm"]
-RUN ["node", "pnpm", "build"]
+RUN ["node", "/lib/node_modules/npm/bin/npm-cli.js", "install", "pnpm"]
+RUN ["node", "node_modules/pnpm/bin/pnpm.cjs", "build"]
 
 FROM scratch as app-builder
 
