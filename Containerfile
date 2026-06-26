@@ -1,45 +1,42 @@
-FROM archlinux:base-devel-20260308.0.497099 AS fetch
+FROM archlinux:base-devel-20260621.0.546891 AS builder
 
 ARG AUTHELIA_VERSION
-ARG GOLANG_VERSION=1.26.4
+ARG GOLANG_VERSION
 
 ARG AUTHELIA_SOURCE=https://github.com/authelia/authelia.git
 ARG GOLANG_RELEASE=https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
-RUN pacman -Sy --noconfirm git
+RUN pacman -Sy --noconfirm git pnpm wget
 
-WORKDIR /src/authelia
-RUN git clone ${AUTHELIA_SOURCE} authelia \
-  && cd authelia \
-  && git checkout v${AUTHELIA_VERSION}
-
-WORKDIR /fetch/golang
-RUN curl --silent --show-error --location --output golang.tar.gz \
+WORKDIR /opt/
+RUN curl --silent --show-error --location \
   "${GOLANG_RELEASE}" \
-  && tar xzf golang.tar.gz --strip-components=1 \
-  && rm golang.tar.gz
-
-FROM ghcr.io/simons-containers/distroless-nodejs:26.4.0 as frontend-builder
-
-COPY --from=fetch /src/authelia /src/authelia
-WORKDIR /src/authelia/web
-RUN ["node", "/lib/node_modules/npm/bin/npm-cli.js", "install", "pnpm"]
-RUN ["node", "node_modules/pnpm/bin/pnpm.cjs", "build"]
-
-FROM scratch as app-builder
-
-COPY --from=fetch /fetch/golang /
-COPY --from=fetch /src/authelia /src/authelia
-COPY --from=frontend-builder /src/authelia/internal/server/public_html/api /src/authelia/api
+  | tar xzf - --strip-components=1
+ENV PATH=$PATH:/opt/bin
 
 WORKDIR /src/authelia
-RUN /bin/go build -o authelia ./cmd/authelia
+RUN git clone --branch v${AUTHELIA_VERSION} --depth 1 --single-branch \
+  ${AUTHELIA_SOURCE} .
 
-FROM ghcr.io/simons-containers/distroless-musl:1.2.6
+RUN go run ./cmd/authelia-scripts xflags > /tmp/xflags
+RUN cd web && pnpm build
+RUN cp -r api internal/server/public_html/api
+RUN git update-index --assume-unchanged \
+    internal/server/public_html/api/index.html \
+    internal/server/public_html/api/openapi.yml \
+    internal/server/public_html/index.html
+RUN go build \
+    -trimpath \
+    -buildmode=pie \
+    -ldflags="-s -w $(< /tmp/xflags)" \
+    -o authelia \
+    ./cmd/authelia
+
+FROM ghcr.io/simons-containers/distroless-glibc:2.43
 
 ARG AUTHELIA_VERSION
 
-COPY --from=app-builder /src/authelia/authelia /usr/bin/authelia
+COPY --from=builder /src/authelia/authelia /usr/bin/authelia
 
 ENTRYPOINT ["/usr/bin/authelia"]
 CMD ["--config", "/etc/authelia.d"]
@@ -49,4 +46,3 @@ LABEL org.opencontainers.image.description="distroless authelia"
 LABEL org.opencontainers.image.version="${AUTHELIA_VERSION}"
 LABEL org.opencontainers.image.source="https://github.com/simons-containers/distroless-authelia"
 LABEL org.opencontainers.image.volumes.config="/etc/authelia.d"
-
