@@ -1,19 +1,42 @@
-FROM archlinux:base-devel-20260308.0.497099 AS builder
+FROM archlinux:base-devel-20260621.0.546891 AS builder
 
 ARG AUTHELIA_VERSION
-ARG AUTHELIA_TARBALL=authelia-v${AUTHELIA_VERSION}-linux-amd64-musl.tar.gz
-ARG GITHUB_URL=https://github.com/authelia/authelia/releases/download
+ARG GOLANG_VERSION
 
-WORKDIR /tmp
-RUN curl --silent --show-error --location --output authelia.tar.gz \
-  "${GITHUB_URL}/v${AUTHELIA_VERSION}/${AUTHELIA_TARBALL}" \
-  && tar xzf authelia.tar.gz
+ARG AUTHELIA_SOURCE=https://github.com/authelia/authelia.git
+ARG GOLANG_RELEASE=https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
-FROM ghcr.io/simons-containers/distroless-musl:1.2.6
+RUN pacman -Sy --noconfirm git pnpm wget
+
+WORKDIR /opt/
+RUN curl --silent --show-error --location \
+  "${GOLANG_RELEASE}" \
+  | tar xzf - --strip-components=1
+ENV PATH=$PATH:/opt/bin
+
+WORKDIR /src/authelia
+RUN git clone --branch v${AUTHELIA_VERSION} --depth 1 --single-branch \
+  ${AUTHELIA_SOURCE} .
+
+RUN go run ./cmd/authelia-scripts xflags > /tmp/xflags
+RUN cd web && pnpm build
+RUN cp -r api internal/server/public_html/api
+RUN git update-index --assume-unchanged \
+    internal/server/public_html/api/index.html \
+    internal/server/public_html/api/openapi.yml \
+    internal/server/public_html/index.html
+RUN go build \
+    -trimpath \
+    -buildmode=pie \
+    -ldflags="-s -w $(< /tmp/xflags)" \
+    -o authelia \
+    ./cmd/authelia
+
+FROM ghcr.io/simons-containers/distroless-glibc:2.43
 
 ARG AUTHELIA_VERSION
 
-COPY --from=builder /tmp/authelia /usr/bin/authelia
+COPY --from=builder /src/authelia/authelia /usr/bin/authelia
 
 ENTRYPOINT ["/usr/bin/authelia"]
 CMD ["--config", "/etc/authelia.d"]
@@ -23,4 +46,3 @@ LABEL org.opencontainers.image.description="distroless authelia"
 LABEL org.opencontainers.image.version="${AUTHELIA_VERSION}"
 LABEL org.opencontainers.image.source="https://github.com/simons-containers/distroless-authelia"
 LABEL org.opencontainers.image.volumes.config="/etc/authelia.d"
-
