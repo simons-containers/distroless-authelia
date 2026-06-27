@@ -8,11 +8,11 @@ ARG GOLANG_RELEASE=https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 RUN pacman -Sy --noconfirm git pnpm wget
 
-WORKDIR /opt/
+WORKDIR /opt/go
 RUN curl --silent --show-error --location \
   "${GOLANG_RELEASE}" \
   | tar xzf - --strip-components=1
-ENV PATH=$PATH:/opt/bin
+ENV PATH=$PATH:/opt/go/bin
 
 WORKDIR /src/authelia
 RUN git clone --branch v${AUTHELIA_VERSION} --depth 1 --single-branch \
