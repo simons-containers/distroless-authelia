@@ -1,6 +1,6 @@
-![Latest](https://ghcr-badge.egpl.dev/simons-containers/distroless-authelia/latest_tag?ignore=latest,sha256*&label=latest)  
+[![Latest](https://ghcr-badge.egpl.dev/simons-containers/distroless-authelia/latest_tag?ignore=latest,sha256*&label=latest)  
 ![Size](https://ghcr-badge.egpl.dev/simons-containers/distroless-authelia/size?tag=latest)  
-![Tags](https://ghcr-badge.egpl.dev/simons-containers/distroless-authelia/tags?ignore=latest,sha256*)  
+![Tags](https://ghcr-badge.egpl.dev/simons-containers/distroless-authelia/tags?ignore=latest,sha256*)](https://github.com/simons-containers/distroless-authelia/pkgs/container/distroless-authelia)  
 
 # Distroless authelia container
 
