@@ -4,7 +4,7 @@
 
 # Distroless authelia container
 
-Bare-bones distroless authelia container image with `musl libc`, `tzdata`, and Mozilla CA certificates. Does not contain `busybox`, `su-exec`, or `wget` like the official container. Uses `ghcr.io/simons-containers/distroless-musl` and is 15M smaller than the official image.
+Bare-bones distroless authelia container image.
 
 ## Running
 
@@ -36,7 +36,7 @@ docker build -t \
 
 Repository contents (e.g., `Containerfile`, build scripts, and configuration) are licensed under the **MIT License**.
 
-Software included in built container images (such as **authelia**, **musl**, **tzdata**, and **Mozilla CA Certificates**) are provided under their respective upstream licenses and are not covered by the MIT license for this repository.
+Software included in built container images (such as **authelia**, **glibc**, **tzdata**, and **Mozilla CA Certificates**) are provided under their respective upstream licenses and are not covered by the MIT license for this repository.
 
 ## Acknowledgements
 
@@ -45,8 +45,8 @@ This project depends on a number of upstream components and data sources:
 - **authelia** - The Single Sign-On Multi-Factor portal for web apps, now OpenID Certified™.  
   https://www.authelia.com
 
-- **musl** – Lightweight C standard library implementation for Linux providing the standard C runtime and POSIX interfaces with a focus on simplicity, correctness, and static linking.  
-  https://musl.libc.org/
+- **glibc** – GNU C Library providing the standard C runtime and POSIX interfaces used by most Linux systems.  
+  https://www.gnu.org/software/libc/
 
 - **tzdata** – The IANA Time Zone Database, which provides the canonical global timezone definitions used for correct time handling.  
   https://www.iana.org/time-zones
