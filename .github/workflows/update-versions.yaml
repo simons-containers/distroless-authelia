@@ -23,15 +23,24 @@ jobs:
           timeout_minutes: 10
           command: |
             set -uo pipefail
+            GOLANG=$(git ls-remote --tags https://go.googlesource.com/go.git/ \
+              | awk -F/ '/go[0-9\.]+$/ {gsub("go", ""); print $3}' \
+              | sort -V | tail -1)
             AUTHELIA=$(git ls-remote --tags https://github.com/authelia/authelia.git/  \
-              | awk -F/ '{print $3}' \
-              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
-              | sed 's/^v//' \
-              | sort -V \
-              | tail -1)
-  
-            yq -i ".authelia = \"$AUTHELIA\"" versions.yaml
-            git diff versions.yaml
+              | awk -F/ '/v[0-9\.]+$/ {print $3}' \
+              | sort -V | tail -1)
+
+            : ${GOLANG:?} ${AUTHELIA:?}
+
+            jq \
+              --arg golang "$GOLANG" \
+              --arg authelia  "$AUTHELIA" \
+              '
+                .golang.version = $golang |
+                .authelia.version  = $authelia
+              ' sources.json > tmp.json && mv tmp.json sources.json
+
+            git diff sources.json
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
