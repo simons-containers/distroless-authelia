@@ -27,7 +27,7 @@ jobs:
               | awk -F/ '/go[0-9\.]+$/ {gsub("go", ""); print $3}' \
               | sort -V | tail -1)
             AUTHELIA=$(git ls-remote --tags https://github.com/authelia/authelia.git/  \
-              | awk -F/ '/v[0-9\.]+$/ {print $3}' \
+              | awk -F/ '/v[0-9\.]+$/ {gsub("v", ""); print $3}' \
               | sort -V | tail -1)
 
             : ${GOLANG:?} ${AUTHELIA:?}
