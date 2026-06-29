@@ -23,21 +23,6 @@ docker run -it --rm -v ./config:/etc/authelia.d \
   ghcr.io/simons-containers/distroless-authelia:latest
 ```
 
-## Building
-
-| Arg | Description |
-|---|---|
-| `AUTHELIA_VERSION` | Version of authelia to use
-
-Build container:
-
-```bash
-docker build -t \
-  distroless-authelia:$(yq -r .authelia versions.yaml) \
-  $(yq -r 'to_entries[] | "--build-arg " + (.key | upcase) + "_VERSION=" + .value' versions.yaml) \
-  -f Containerfile .
-```
-
 ## License
 
 Repository contents (e.g., `Containerfile`, build scripts, and configuration) are licensed under the **MIT License**.
