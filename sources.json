@@ -3,14 +3,14 @@
     "version": "1.26.4",
     "purl": "pkg:generic/golang",
     "release": {
-        "url_pattern": "https://go.dev/dl/go{version}.linux-amd64.tar.gz"
+      "url_pattern": "https://go.dev/dl/go{version}.linux-amd64.tar.gz"
     }
   },
   "authelia": {
     "version": "4.39.20",
     "purl": "pkg:generic/authelia",
     "source": {
-        "url": "https://github.com/authelia/authelia.git"
+      "url": "https://github.com/authelia/authelia.git"
     }
   }
 }
