@@ -3,8 +3,8 @@ FROM archlinux:base-devel-20260621.0.546891 AS builder
 ARG AUTHELIA_VERSION
 ARG GOLANG_VERSION
 
-ARG AUTHELIA_SOURCE=https://github.com/authelia/authelia.git
-ARG GOLANG_RELEASE=https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
+ARG AUTHELIA_SOURCE
+ARG GOLANG_RELEASE
 
 RUN pacman -Sy --noconfirm git pnpm wget
 
