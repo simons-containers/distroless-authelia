@@ -1,12 +1,14 @@
 [![Current Version](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/release.svg)](https://github.com/simons-containers/distroless-authelia/pkgs/container/distroless-authelia)
-[![Current Size](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/size.svg)](https://github.com/simons-containers/distroless-authelia/pkgs/container/distroless-authelia)
-[![Tags](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/tags.svg)](https://github.com/simons-containers/distroless-authelia/pkgs/container/distroless-authelia)   
+[![Tags](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/tags.svg)](https://github.com/simons-containers/distroless-authelia/pkgs/container/distroless-authelia)  
+![Current Size](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/size.svg)
+![Wasted Size](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/wasted.svg)
+![Efficiency](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/efficiency.svg)  
 ![Critical](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/critical.svg)
 ![High](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/high.svg)
 ![Medium](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/medium.svg)
 ![Low](https://raw.githubusercontent.com/simons-containers/distroless-authelia/badges/.badges/main/low.svg)  
 [![status](https://github.com/simons-containers/distroless-authelia/actions/workflows/deploy.yaml/badge.svg)](https://github.com/simons-containers/distroless-authelia/actions/workflows/deploy.yaml)
-[![status](https://github.com/simons-containers/distroless-authelia/actions/workflows/update-versions.yaml/badge.svg)](https://github.com/simons-containers/distroless-authelia/actions/workflows/update-versions.yaml)  
+[![status](https://github.com/simons-containers/distroless-authelia/actions/workflows/update-versions.yaml/badge.svg)](https://github.com/simons-containers/distroless-authelia/actions/workflows/update-versions.yaml)
 
 # Distroless authelia container
 
