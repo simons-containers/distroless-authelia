@@ -1,6 +1,6 @@
 {
   "golang": {
-    "version": "1.26.4",
+    "version": "1.26.5",
     "purl": "pkg:generic/golang",
     "release": {
       "url_pattern": "https://go.dev/dl/go{version}.linux-amd64.tar.gz"
