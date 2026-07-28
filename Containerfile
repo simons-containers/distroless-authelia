@@ -32,7 +32,7 @@ RUN go build \
     -o authelia \
     ./cmd/authelia
 
-FROM ghcr.io/simons-containers/distroless-glibc:2.43
+FROM ghcr.io/simons-containers/distroless-glibc:2.44
 
 ARG AUTHELIA_VERSION
 
