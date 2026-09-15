@@ -7,7 +7,7 @@
     }
   },
   "authelia": {
-    "version": "4.39.22",
+    "version": "4.39.27",
     "purl": "pkg:generic/authelia",
     "source": {
       "url": "https://github.com/authelia/authelia.git"
