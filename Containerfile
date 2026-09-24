@@ -1,4 +1,4 @@
-FROM archlinux:base-devel-20260809.0.570793 AS builder
+FROM archlinux:base-devel-20260920.0.596911 AS builder
 
 ARG AUTHELIA_VERSION
 ARG GOLANG_VERSION
@@ -19,6 +19,9 @@ RUN git clone --branch v${AUTHELIA_VERSION} --depth 1 --single-branch \
   ${AUTHELIA_SOURCE} .
 
 RUN go run ./cmd/authelia-scripts xflags > /tmp/xflags
+ENV PNPM_HOME=/root/.local/share/pnpm
+ENV PATH="${PNPM_HOME}/bin:${PATH}"
+RUN pnpm self-update
 RUN cd web && pnpm build
 RUN cp -r api internal/server/public_html/api
 RUN git update-index --assume-unchanged \
