@@ -1,4 +1,4 @@
-FROM archlinux:base-devel-20260920.0.596911 AS builder
+FROM archlinux:base-devel-20261011.0.609700 AS builder
 
 ARG AUTHELIA_VERSION
 ARG GOLANG_VERSION
@@ -6,7 +6,7 @@ ARG GOLANG_VERSION
 ARG AUTHELIA_SOURCE
 ARG GOLANG_RELEASE
 
-RUN pacman -Sy --noconfirm git pnpm wget
+RUN pacman -Sy --noconfirm git nodejs pnpm wget
 
 WORKDIR /opt/go
 RUN curl --silent --show-error --location \
